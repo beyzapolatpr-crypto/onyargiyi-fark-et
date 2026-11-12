@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Önyargıyı Fark Et — Bu Bir Önyargı mı?</title>
+<style>
+:root{--ink:#201c1b;--muted:#6c625d;--paper:#f7f3ed;--card:#fffdfa;--wine:#7b1726;--wine2:#a13b48;--line:#e5dcd2;--soft:#efe6df;--green:#315e4b}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+header{padding:18px clamp(20px,5vw,72px);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{font:700 19px Georgia,serif;letter-spacing:.02em}.tag{font-size:11px;letter-spacing:.16em;color:var(--wine);text-transform:uppercase}
+main{max-width:920px;margin:0 auto;padding:clamp(28px,6vw,64px) 22px 72px}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--wine);font-weight:700}
+h1{font:700 clamp(42px,8vw,76px)/.98 Georgia,serif;letter-spacing:-.045em;margin:15px 0 18px}
+.lead{font:italic clamp(19px,3vw,25px)/1.35 Georgia,serif;color:var(--wine);max-width:760px}
+.intro{max-width:720px;color:var(--muted);font-size:16px;margin:22px 0 30px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,4vw,38px);box-shadow:0 12px 35px #38241a0a}
+.topline{display:flex;justify-content:space-between;gap:16px;align-items:center;color:var(--muted);font-size:13px}
+.track{height:7px;background:var(--soft);border-radius:20px;overflow:hidden;margin:13px 0 30px}.fill{height:100%;background:var(--wine);width:0;transition:width .25s}
+.kicker{font-size:11px;color:var(--wine);font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+h2{font:700 clamp(25px,4vw,36px)/1.12 Georgia,serif;margin:12px 0}
+.scenario{font-size:18px;max-width:740px;margin:18px 0 24px}
+.options{display:grid;gap:11px}
+.option{width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;font:inherit;color:var(--ink);cursor:pointer;transition:.15s}
+.option:hover{border-color:var(--wine);transform:translateY(-1px)}.option:focus-visible,button:focus-visible{outline:3px solid #bd7880;outline-offset:3px}
+.option:disabled{cursor:default;transform:none;opacity:1}
+.option.chosen{border-color:var(--wine);background:#fbf1f1}.option.correct{border-color:var(--green);background:#f0f6f1}.option.wrong{border-color:var(--wine2);background:#fbf0f0}
+.feedback{display:none;margin-top:22px;padding:18px;border-radius:12px;background:#f3eee8;border-left:4px solid var(--wine)}
+.feedback.show{display:block}.feedback strong{display:block;margin-bottom:5px}
+.actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:24px;flex-wrap:wrap}
+button.primary{border:0;border-radius:999px;background:var(--wine);color:white;padding:13px 23px;font-weight:700;cursor:pointer}
+button.secondary{border:1px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);padding:12px 21px;font-weight:700;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+.small{font-size:12px;color:var(--muted)}
+.hidden{display:none!important}
+.result{text-align:center}.score{font:700 clamp(52px,10vw,84px)/1 Georgia,serif;color:var(--wine);margin:18px 0}
+.result p{max-width:650px;margin:12px auto;color:var(--muted)}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:5px 11px;font-size:12px;color:var(--muted);margin:4px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:24px;border-top:1px solid var(--line)}
+@media(max-width:600px){header{align-items:flex-start;flex-direction:column}.scenario{font-size:16px}.actions{align-items:stretch}.actions button{width:100%}}
+</style>
+</head>
+<body>
+<header><div class="brand">ÖNYARGIYI FARK ET</div><div class="tag">Görünmeyen ayrımcılığı keşfet</div></header>
+<main>
+<section id="welcome">
+ <div class="eyebrow">Etkileşimli farkındalık uygulaması</div>
+ <h1>Bu bir<br>önyargı mı?</h1>
+ <div class="lead">“Bir insanı tanımadan onun hakkında karar vermek ne kadar kolay?”</div>
+ <p class="intro">Gündelik hayattan 7 kısa durumla karşılaş. Her durumda en kapsayıcı ve adil yaklaşımı seç. Amaç suçlamak değil; otomatik varsayımlarımızı fark etmek, durup düşünmek ve başka bir ihtimali görebilmek.</p>
+ <div class="panel">
+  <div class="kicker">Nasıl oynanır?</div>
+  <p>Her senaryoda üç seçenekten birini işaretle. Seçiminden sonra açıklamayı oku. Sonunda puanını ve üzerinde düşünebileceğin önerileri göreceksin.</p>
+  <div class="pill">7 senaryo</div><div class="pill">Anında geri bildirim</div><div class="pill">İnternetsiz çalışır</div>
+  <div class="actions"><span class="small">Yaklaşık 4–6 dakika</span><button class="primary" id="start">Başla</button></div>
+ </div>
+</section>
+<section id="game" class="hidden">
+ <div class="topline"><span id="count">SENARYO 1 / 7</span><span id="score">Puan: 0</span></div>
+ <div class="track"><div class="fill" id="progress"></div></div>
+ <div class="panel">
+  <div class="kicker" id="category"></div><h2 id="title"></h2>
+  <p class="scenario" id="scenario"></p>
+  <div class="options" id="options"></div>
+  <div class="feedback" id="feedback" aria-live="polite"><strong id="feedbackTitle"></strong><span id="feedbackText"></span></div>
+  <div class="actions"><span class="small" id="hint">En kapsayıcı yaklaşımı düşün.</span><button class="primary" id="next" disabled>Sonraki senaryo</button></div>
+ </div>
+</section>
+<section id="result" class="hidden">
+ <div class="panel result">
+  <div class="eyebrow">Yolculuk tamamlandı</div><h1>Fark etmek,<br>değişimin başlangıcı.</h1>
+  <div class="score" id="finalScore">0 / 7</div><div id="resultTitle" class="kicker"></div>
+  <p id="resultText"></p>
+  <div id="takeaways"></div>
+  <div class="actions" style="justify-content:center"><button class="primary" id="restart">Yeniden başla</button></div>
+ </div>
+</section>
+</main>
+<footer>ÖNYARGIYI FARK ET · Sosyal farkındalık projesi · Bu uygulama eğitim ve düşünme amacı taşır.</footer>
+<script>
+const questions=[
+{cat:"1 · Stereotip",title:"İş görüşmesinde ilk izlenim",text:"Bir adayın adı ve aksanı, görüşmecide onun yeterince eğitimli olmadığı izlenimini yaratıyor. Görüşmeci, özgeçmişini ayrıntılı incelemeden başka adaya yöneliyor.",opts:["İlk izlenime güvenmek; sezgiler çoğu zaman doğrudur.","Adayı aynı işle ilgili ölçütlerle değerlendirmek ve varsayımı sorgulamak.","Aksanını değiştirmesini önermek."],a:1,why:"Ad, aksan veya köken kişinin mesleki yeterliliğini göstermez. Stereotip, bir gruba ilişkin genellemeyi tek bir kişiye uygulamaktır. Adil değerlendirme, işle ilgili ortak ölçütlere dayanır."},
+{cat:"2 · Mikro saldırganlık",title:"“Çok iyi Türkçe konuşuyorsun”",text:"Türkiye'de büyümüş bir kişiye, görünüşü veya soyadı nedeniyle “Çok iyi Türkçe konuşuyorsun, nerelisin?” deniyor. Kişi bu yorumdan rahatsız oluyor.",opts:["İltifat olduğu için sorun olmadığını düşünmek.","Kişinin neden rahatsız olduğunu dinlemek; kökenini varsaymamak.","Aynı soruyu daha yüksek sesle sormak."],a:1,why:"İyi niyet, etkinin önemsiz olduğu anlamına gelmez. Bu tür sözler kişiye ait olmadığı veya dışarıdan geldiği mesajını verebilir. Merak, kişinin kimliğini sorguya çekmeden ve sınırlarına saygı duyarak ifade edilebilir."},
+{cat:"3 · Örtük önyargı",title:"Güvenlik kontrolü",text:"Bir mağazada çalışan, yalnızca ten rengi nedeniyle bir müşteriyi diğerlerinden daha yakından takip ediyor. Müşterinin davranışında şüpheli bir durum yok.",opts:["Güvenlik için bazı grupları daha fazla izlemek normaldir.","Davranışa dayanmayan seçici takibi durdurup herkese eşit yaklaşmak.","Müşterinin alışverişini bitirmesini beklemeden uyarmak."],a:1,why:"Örtük önyargılar farkında olmadan kararları etkileyebilir. Güvenlik uygulamaları ten rengi veya etnik kökene değil, somut ve tutarlı davranış göstergelerine dayanmalıdır."},
+{cat:"4 · Temsil",title:"Reklamda kimler görünür?",text:"Bir reklam ekibi, “Herkes kendini bu ailede görsün” diyor ancak bütün karakterleri tek bir etnik gruptan seçiyor. Farklı topluluklar yalnızca arka planda görünüyor.",opts:["Ana akım reklamda tek tip temsil daha risksizdir.","Karakterleri klişelere düşmeden, farklı kimlikleri özne olarak gösterecek biçimde çeşitlendirmek.","Farklı grupları yalnızca dekor olarak eklemek."],a:1,why:"Temsil, kimin hikâyesinin merkezde ve kimin yalnızca arka planda olduğunu belirler. Çeşitlilik, kişileri sembole indirgemeden ve klişeleri yeniden üretmeden kurulmalıdır."},
+{cat:"5 · Genelleme",title:"Bir kişinin davranışı, bir grubun özelliği mi?",text:"Bir ekip üyesi, aynı kökenden gelen bir çalışma arkadaşının hatasını görünce “Onlar zaten böyledir” diyor.",opts:["Tek bir örnek, grubun genel özelliğini kanıtlar.","Davranışı kişiye ve koşullara göre değerlendirmek; grup genellemesi yapmamak.","Bu yorumu şaka olarak kabul edip geçmek."],a:1,why:"Tek bir kişinin davranışı bütün bir gruba mal edilemez. Genelleme, bireysel farklılıkları siler ve ayrımcı tutumları besleyebilir."},
+{cat:"6 · Dışlama",title:"Sınıf içindeki grup çalışması",text:"Öğrenciler, farklı etnik kökenden gelen bir arkadaşlarının “gruba uyum sağlayamayacağını” varsayarak onu ekiplerine almıyor.",opts:["Uyum sorunu yaşamamak için onu dışarıda bırakmak.","Önceden hüküm vermeden kişiyi gruba dahil etmek ve görevleri birlikte belirlemek.","Onu yalnızca görünürlük olsun diye gruba eklemek ama söz hakkı vermemek."],a:1,why:"Dahil etmek yalnızca aynı ortamda bulunmak değildir; gerçek katılım ve söz hakkı da gerekir. Bir kişinin uyum sağlayamayacağına ilişkin varsayım, fırsat eşitsizliği yaratır."},
+{cat:"7 · Müdahale",title:"Ayrımcı bir şakaya tanık olmak",text:"Arkadaş ortamında bir kişi etnik kökene dayalı aşağılayıcı bir şaka yapıyor. Gruptakiler gülüyor; hedef alınan kişi sessiz kalıyor.",opts:["Ortam bozulmasın diye gülüp geçmek.","Sakin biçimde şakanın neden incitici olduğunu belirtmek ve hedef alınan kişinin yanında durmak.","Hedef alınan kişiden alıngan olmamasını istemek."],a:1,why:"Sessizlik, ayrımcı davranışın normalleşmesine katkıda bulunabilir. Güvenli olduğunda sakin ve açık bir müdahale yapmak, şakayı hedef alınan kişiye yük bindirmeden durdurmaya yardımcı olur."}
+];
+let index=0,points=0,answered=false;
+const $=id=>document.getElementById(id);
+function show(id){["welcome","game","result"].forEach(x=>$(x).classList.toggle("hidden",x!==id))}
+function render(){
+ const q=questions[index];answered=false;
+ $("count").textContent=`SENARYO ${index+1} / ${questions.length}`;
+ $("score").textContent=`Puan: ${points}`;
+ $("progress").style.width=`${index/questions.length*100}%`;
+ $("category").textContent=q.cat;$("title").textContent=q.title;$("scenario").textContent=q.text;
+ $("options").innerHTML="";
+ $("feedback").classList.remove("show");
+ $("hint").textContent="En kapsayıcı yaklaşımı düşün.";
+ $("next").disabled=true;$("next").textContent=index===questions.length-1?"Sonucu gör":"Sonraki senaryo";
+ q.opts.forEach((opt,i)=>{const b=document.createElement("button");b.className="option";b.textContent=String.fromCharCode(65+i)+". "+opt;b.onclick=()=>choose(i);$("options").appendChild(b)});
+}
+function choose(choice){
+ if(answered)return;answered=true;const q=questions[index];const buttons=[...$("options").children];
+ buttons.forEach((b,i)=>{b.disabled=true;if(i===q.a)b.classList.add("correct");if(i===choice&&choice!==q.a)b.classList.add("wrong");if(i===choice)b.classList.add("chosen")});
+ if(choice===q.a)points++;
+ $("score").textContent=`Puan: ${points}`;
+ $("feedbackTitle").textContent=choice===q.a?"Bu yaklaşım kapsayıcı.":"Burada yeniden düşünmeye değer bir nokta var.";
+ $("feedbackText").textContent=q.why;$("feedback").classList.add("show");
+ $("hint").textContent="Açıklamayı okuduktan sonra devam edebilirsin.";
+ $("next").disabled=false;
+}
+function finish(){
+ $("progress").style.width="100%";$("finalScore").textContent=`${points} / ${questions.length}`;
+ let title,desc;
+ if(points>=6){title="Güçlü farkındalık";desc="Senaryolardaki varsayımları çoğunlukla fark ettin. Bu dikkati günlük kararlarında ve başkalarının deneyimlerini dinlerken sürdür."}
+ else if(points>=4){title="Farkındalık gelişiyor";desc="Bazı durumlarda ilk tepki ile adil yaklaşım arasındaki farkı gördün. Özellikle genellemeleri ve iyi niyetli görünen sözlerin etkisini düşünmeye devam et."}
+ else{title="Birlikte öğrenmeye devam";desc="Bu sonuç bir etiket değil, düşünmek için başlangıç noktası. Otomatik varsayımlarını fark etmek zaman ve pratik ister; açıklamaları yeniden inceleyebilirsin."}
+ $("resultTitle").textContent=title;$("resultText").textContent=desc;
+ $("takeaways").innerHTML="<p><strong>Kendine şu üç soruyu sor:</strong></p><div class='pill'>Bu varsayımın kanıtı ne?</div><div class='pill'>Aynı davranışı herkese uygular mıydım?</div><div class='pill'>Bu söz veya karar karşı tarafta nasıl bir etki yaratır?</div>";
+ show("result");
+}
+$("start").onclick=()=>{index=0;points=0;show("game");render()};
+$("next").onclick=()=>{if(index<questions.length-1){index++;render()}else finish()};
+$("restart").onclick=()=>{index=0;points=0;show("game");render()};
+</script>
+</body></html>
