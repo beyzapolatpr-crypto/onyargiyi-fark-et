@@ -1,0 +1,6 @@
+{
+  "name": "ÖNYARGIYI FARK ET – Görünmeyen Ayrımcılığı Keşfet",
+  "description": "Irkçılık, etnik ayrımcılık, kalıp yargılar ve örtük önyargılar konusunda gençler ve üniversite öğrencileri için etkileşimli sosyal farkındalık platformu.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
